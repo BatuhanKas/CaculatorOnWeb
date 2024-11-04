@@ -1,0 +1,47 @@
+package com.example.hesapmakinesi;
+
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/calculator")
+public class Calculator {
+    @GetMapping("/calculate")
+    public ResponseEntity<Map<String, Object>>
+        calculate(@RequestParam int num1, @RequestParam int num2, @RequestParam String operator) {
+        int result = 0;
+        switch (operator) {
+            case "topla":
+                result = num1 + num2;
+                break;
+            case "cikart":
+                result = num1 - num2;
+                break;
+            case "carp":
+                result = num1 * num2;
+                break;
+            case "bol":
+                if (num2 != 0)
+                    result = num1 / num2;
+                break;
+            default:
+                return new ResponseEntity<>(Map.of("error:", "yanlis islem!"), HttpStatus.BAD_GATEWAY);
+        }
+
+        Map<String, Object> ResponseMap = new HashMap<>();
+        ResponseMap.put("islem: ", operator);
+        ResponseMap.put("sayi1: ", num1);
+        ResponseMap.put("sayi2: ", num2);
+
+        return new ResponseEntity<>(Map.of("sonuc:", result, "data: ", ResponseMap), HttpStatus.OK);
+    }
+}

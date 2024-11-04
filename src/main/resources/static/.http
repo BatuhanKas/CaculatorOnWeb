@@ -1,0 +1,18 @@
+@url = http://localhost:8080
+
+GET {{url}}/calculator/calculate?num1=5&num2=2&operator=* HTTP/1.1
+Accept: application/json
+
+###
+POST {{url}}/calculator/calculate?num1=8&num2=4&operator=* HTTP/1.1
+Accept: application/json
+
+###
+POST {{url}}/calculator/calculate
+Accept: application/json
+
+{
+    "num1": 5,
+    "num2": 7,
+    "op": +
+}
